@@ -11,12 +11,12 @@ before_script:
   - rm -f composer.lock
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
-  - composer install --no-dev
+  - composer install --no-dev --prefer-source
   - sed -e "s/return extension_loaded('mcrypt');/return false;/" -i vendor/ircmaxell/random-lib/lib/RandomLib/AbstractMcryptMixer.php
   - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi-plugin plugins/flyvemdm
-  - cd plugins/flyvemdm && composer install -o
+  - cd plugins/flyvemdm && composer install -o --prefer-source
 
 script:
   - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install
